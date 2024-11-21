@@ -1,0 +1,185 @@
+\documentclass{macrothesis}
+% The package by default will load the glossaries and natbib packages
+% If you want to disable them, use option `noglossaries` or `nonatbib`
+\usepackage{blindtext}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{verbatim}
+\usepackage{textcomp}
+%%% Thesis metadata %%%
+\title{A Minimal Thesis Example}
+\author{John Doe}
+\advisorname{Dr. Jane Smith}
+\coadvisorname{Dr. Foo Bar} % If no co-advisor, just comment this line
+% To add a second co-advisor, use the command as following:
+% \coadvisorname[Second Co-advisor]{First Co-advisor }
+% \departmentname{Department of Electrical Engineering}
+\universityname{Universidade Federal de Minas Gerais}
+\researchgroupname{MACRO Research Group - Mechatronics, Control, and Robotics}
+\programname{Graduate Program in Electrical Engineering}
+\locationname{Belo Horizonte, Brazil}
+
+%%% Preambles %%%
+% Dedication and Acknowledgments
+\dedication{To my family.}
+\acknowledgments{
+    This is an acknowledgments. If you are using another language as main 
+    (not english), then you should use this command as following:
+
+    ``\textbackslash acknowledgments[Acknowledgments in your language]\{Text\}''
+}
+
+% Abstracts (in both languages)
+\abstract{
+    This is the abstract in the first language. If you are using another language as main
+    (not english), then you should use this command as following:
+
+    ``\textbackslash abstract[Abstract in your language]\{Text\}''
+}
+\abstractsecond{
+    Esse é um exemplo de abstract. Caso sua segunda língua não seja português,
+    você deve usar o comando da seguinte forma:
+
+    ``\textbackslash abstractsecond[Abstract in second language]\{Text\}''
+}
+
+%%% Acronyms and Notations %%%
+
+% The package by default will load the glossaries package
+% If you want to disable it, use option `noglossaries`
+% To add new acronyms, use the command as following:
+\newacronym{uav}{UAV}{Unmanned aerial vehicle}
+\newacronym{dof}{DOF}{Degrees of freedom}
+\newacronym{ufmg}{UFMG}{Universidade Federal de Minas Gerais}
+% To add new notations, use the command as following:
+\newnotation{Rn}{$\mathbb{R}^n$}{Euclidean space of dimension $n$}
+\newnotation{frobnorm}{$\|\cdot\|_F$}{Frobenius norm}
+\newnotation{N}{$\mathbb{N}$}{Set of natural numbers starting from zero or one depending on context}
+\newnotation{Z}{$\mathbb{Z}$}{Set of all integers, both positive and negative including zero}
+\newnotation{C}{$\mathbb{C}$}{Set of complex numbers, represented as $a + bi$ where $a, b \in \mathbb{R}$}
+% You do not need to use the \gls{label} command, as the package will 
+% automatically add the acronyms and notations to the list, whether they are
+% used in the text or not.
+% NOTE: If you use glossaries, every new entry must be defined before the
+% \begin{document} command, i.e., here in the preamble.
+
+% If you disable glossaries, the package will assume that there is a file
+% Acronyms.tex and Notations.tex in the same folder as the main file
+% We assume by default the titles Acronyms and Notations
+
+
+
+\begin{document}
+% Generate cover page
+\maketitlepage
+% Generate preamble page (dedication, acknowledgments, abstracts, 
+% list of figures, list of tables, acronyms, and notations)
+\preamblepage
+
+%----------------------------------------------------------------------------------------
+%	THESIS CONTENT - CHAPTERS
+%----------------------------------------------------------------------------------------
+\chapter{Introduction}
+Para utilizar o pacote, simplesmente adicione o comando \texttt{\textbackslash usepackage\{macrothesis\}} ao preâmbulo do seu documento. Não delete o arquivo \texttt{template/logo.pdf}, já que ele é utilizado para gerar a capa do documento. 
+\section{Opções do pacote}
+O pacote \texttt{macrothesis} possui algumas opções que podem ser utilizadas para personalizar o documento. As opções disponíveis são:
+\begin{itemize}
+    \item \texttt{noglossaries}: Desabilita o pacote \texttt{glossaries} que é utilizado para gerenciar acrônimos e notações. Esta opção é útil caso você deseje utilizar um pacote diferente para gerenciar acrônimos e notações ou caso você deseje utilizar outras opções para o pacote.
+    \item \texttt{nonatbib}: Desabilita o pacote \texttt{natbib} que é utilizado para gerenciar referências bibliográficas. Esta opção é útil caso você deseje utilizar um pacote diferente para gerenciar referências bibliográficas ou caso você deseje utilizar outras opções para o pacote.
+\end{itemize}
+
+\subsection{Uso do pacote \texttt{glossaries}}
+Caso deseje utilizar o pacote \texttt{glossaries}, você pode adicionar novos acrônimos e notações utilizando os comandos predefinidos \texttt{\textbackslash newacronym\{label\}\{sigla\}\{descrição\}} e \texttt{\textbackslash newnotation\{label\}\{notação\}\{descrição\}}, respectivamente. Por exemplo, o acrônimo \gls{uav} e a notação \gls{Rn} foram adicionados utilizando esses comandos. Os acrônimos serão ordenados em ordem alfabética e as notações em ordem de definição.
+
+Não é necessário utilizar o comando \texttt{\textbackslash gls\{label\}} (ou algo similar) para referenciar os acrônimos e notações, pois o pacote \texttt{macrothesis} irá automaticamente adicionar os acrônimos e notações à lista, independentemente de serem utilizados no texto ou não. Apesar disso, você deve definir um label para cada acrônimo e notação.
+
+Esses termos devem ser adicionados no preâmbulo (antes do \verb|begin{document}|) da seguinte forma:
+\begin{verbatim}
+\newacronym{uav}{UAV}{Unmanned aerial vehicle}
+\newacronym{dof}{DOF}{Degrees of freedom}
+\newacronym{ufmg}{UFMG}{Universidade Federal de Minas Gerais}
+
+\newnotation{Rn}{$\mathbb{R}^n$}{Euclidean space of dimension $n$}
+\newnotation{frobnorm}{$\|\cdot\|_F$}{Frobenius norm}
+\end{verbatim}
+
+Note que o pacote \texttt{glossaries} será carregado por padrão com as opções \texttt{acronym} e \texttt{symbols}. Caso deseje modificar essas opções, você deve utilizar a opção \texttt{noglossaries} do pacote \texttt{macrothesis} e carregar o pacote \texttt{glossaries} manualmente.
+
+\subsection{Uso do pacote \texttt{natbib}}
+Caso deseje utilizar o pacote \texttt{natbib}, você pode utilizar os comandos \texttt{\textbackslash citep\{label\}} para citações indiretas
+e \texttt{\textbackslash citet\{label\}} para citações diretas. Por exemplo, a referência \citep{Gallier2020} foi adicionada utilizando o comando \texttt{\textbackslash citep\{test\}} e a referência \citet{Lee2012} foi adicionada utilizando o comando \texttt{\textbackslash citet\{test\}}.
+
+O pacote \texttt{natbib} é carregado por padrão com as opções \texttt{authoryear} e \texttt{round}. Caso deseje modificar essas opções, você deve utilizar a opção \texttt{nonatbib} do pacote \texttt{macrothesis} e carregar o pacote \texttt{natbib} manualmente.
+
+\section{Uso do pacote \texttt{macrothesis}}
+O pacote \texttt{macrothesis} é utilizado para gerar a capa, a folha de rosto, a dedicatória, os agradecimentos, os resumos, a lista de figuras, a lista de tabelas, a lista de acrônimos, a lista de notações, e a bibliografia. Para utilizar o pacote, basta adicionar os comandos \texttt{\textbackslash maketitlepage} e \texttt{\textbackslash preamblepage} ao início do seu documento (nessa ordem).
+
+Para alterar o título, o autor, o orientador, etc. do documento, você deve utilizar os comandos \texttt{\textbackslash title\{Título\}}, \texttt{\textbackslash author\{Autor\}}, \texttt{\textbackslash advisorname\{Orientador\}}, etc. no preâmbulo. Por exemplo, para gerar a capa e a folha de rosto, você deve utilizar os comandos:
+\begin{verbatim}
+    \title{A Minimal Thesis Example}
+    \author{John Doe}
+    \advisorname{Dr. Jane Smith}
+    \coadvisorname{Dr. Foo Bar}
+    \universityname{Universidade Federal de Minas Gerais}
+    \researchgroupname{MACRO Research Group - Mechatronics, Control, and Robotics}
+    \programname{Graduate Program in Electrical Engineering}
+    \locationname{Belo Horizonte, Brazil}
+    ...
+    \begin{document}
+    \maketitlepage
+    \preamblepage
+    ...
+    \end{document}
+\end{verbatim}
+O comando \texttt{\textbackslash coadvisorname\{Coorientador\}} é opcional e deve ser utilizado caso haja um coorientador. Para adicionar um segundo coorientador, você deve utilizar o comando da seguinte forma: \texttt{\textbackslash coadvisorname[Segundo Coorientador]\{Primeiro Coorientador\}}.
+
+Para adicionar a dedicatória, os agradecimentos, e os resumos, você deve utilizar os comandos \texttt{\textbackslash dedication\{Dedicatória\}}, \texttt{\textbackslash acknowledgments\{Agradecimentos\}}, \texttt{\textbackslash abstract\{Resumo\}}, e \texttt{\textbackslash abstractsecond\{Abstract\}}. Por exemplo, para adicionar a dedicatória e os agradecimentos, você deve utilizar os comandos:
+\begin{verbatim}
+    \dedication{To my family.}
+    \acknowledgments{
+        Long and emotional text here...
+    }
+    \abstract{    
+        Abstract in english...
+    }
+    \abstractsecond{
+        Resumo em português...
+    }
+    ...
+    \begin{document}
+    \maketitlepage
+    \preamblepage
+    ...
+    \end{document}
+\end{verbatim}
+Caso necessário, é possível modificar o título das seções de abstracts e acknowledgments utilizando os comandos da seguinte forma: \texttt{\textbackslash abstract[Título em sua língua]\{Texto\}} e \texttt{\textbackslash acknowledgments[Título em sua língua]\{Texto\}}.
+
+\section{TODO}
+O pacote ainda está em desenvolvimento e algumas funcionalidades ainda não foram implementadas. Algumas das funcionalidades que ainda serão implementadas são:
+\begin{itemize}
+    \item Adicionar opções para alterar as línguas utilizadas no documento.
+    \item Adicionar opção para selecionar "Thesis" ou "Dissertation". Além de selecionar "Master" ou "Doctor".
+    \item Melhorar a forma como a opção \texttt{noglossaries} é tratada.
+    \item Adicionar opções para o pacote \texttt{hyperref} ou adicionar uma opção para desabilitar o pacote.
+    \item Somente mostrar a lista de figuras e a lista de tabelas caso haja figuras e tabelas no documento.
+    \item Melhorar o visual das listas de acrônimos e notações.
+\end{itemize}
+
+\chapter{Mathematical Background}
+\section{Math}
+\blindmathtrue\blindtext[2]
+\subsection{Abstract Algebra}
+\blindmathpaper
+\subsubsection{Group Theory}
+\blindtext[1]\blindmathfalse
+\chapter{Development}
+\Blindtext[2][1]
+\chapter{Results}
+\blindtext[2]
+
+\chapter{Conclusions}
+\blindtext[1]
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}
