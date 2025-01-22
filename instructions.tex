@@ -1,4 +1,4 @@
-\documentclass{macrothesis}
+\documentclass[dissertation,master,firstlang=english,secondlang=brazil]{macrothesis}
 % The package by default will load the glossaries and natbib packages
 % If you want to disable them, use option `noglossaries` or `nonatbib`
 \usepackage{blindtext}
@@ -12,11 +12,13 @@
 \coadvisorname{Dr. Foo Bar} % If no co-advisor, just comment this line
 % To add a second co-advisor, use the command as following:
 % \coadvisorname[Second Co-advisor]{First Co-advisor }
+
+% The following commands set the department, university, research group, program, and location names. The default values are exactly:
 % \departmentname{Department of Electrical Engineering}
-\universityname{Universidade Federal de Minas Gerais}
-\researchgroupname{MACRO Research Group - Mechatronics, Control, and Robotics}
-\programname{Graduate Program in Electrical Engineering}
-\locationname{Belo Horizonte, Brazil}
+% \universityname{Universidade Federal de Minas Gerais}
+% \researchgroupname{MACRO Research Group - Mechatronics, Control, and Robotics}
+% \programname{Graduate Program in Electrical Engineering}
+% \locationname{Belo Horizonte, Brazil}
 
 %%% Preambles %%%
 % Dedication and Acknowledgments
@@ -83,14 +85,22 @@ Para utilizar o pacote, simplesmente adicione o comando \texttt{\textbackslash u
 \section{Opções do pacote}
 O pacote \texttt{macrothesis} possui algumas opções que podem ser utilizadas para personalizar o documento. As opções disponíveis são:
 \begin{itemize}
-    \item \texttt{noglossaries}: Desabilita o pacote \texttt{glossaries} que é utilizado para gerenciar acrônimos e notações. Esta opção é útil caso você deseje utilizar um pacote diferente para gerenciar acrônimos e notações ou caso você deseje utilizar outras opções para o pacote.
+    \item \texttt{noglossaries}: Desabilita o pacote \texttt{glossaries} que é utilizado para gerenciar acrônimos e notações. Esta opção é útil caso você deseje utilizar um pacote diferente para gerenciar acrônimos e notações ou caso você deseje utilizar outras opções para o pacote. É possível definir uma página de acrônimos e notações manualmente utilizando os comandos \texttt{\textbackslash setnotationpage}.
     \item \texttt{nonatbib}: Desabilita o pacote \texttt{natbib} que é utilizado para gerenciar referências bibliográficas. Esta opção é útil caso você deseje utilizar um pacote diferente para gerenciar referências bibliográficas ou caso você deseje utilizar outras opções para o pacote.
+    \item \texttt{nohyperref}: Desabilita o pacote \texttt{hyperref} que é utilizado para gerar links no documento. Esta opção é útil caso você deseje utilizar um pacote diferente para gerar links ou caso você deseje utilizar outras opções para o pacote.
+    \item \texttt{dissertation}: Usa o termo ``Dissertation'' ao invés do padrão ``Thesis''.
+    \item \texttt{thesis}: Usa o termo ``Thesis''. Não é necessário utilizar essa opção, pois é o padrão.
+    \item \texttt{doctor}: Usa o título ``Doctor'' ao invés do padrão ``Master''.
+    \item \texttt{master}: Usa o título ``Master''. Não é necessário utilizar essa opção, pois é o padrão.
+    \item \texttt{firstlang=<lingua>}: Define a língua principal do documento. Por padrão, a língua principal é o inglês. As opções disponíveis são: \\\emph{\supportedlangs}. 
+    \item \texttt{secondlang=<lingua>}: Define a língua secundária do documento. As opções disponíveis são as mesmas. Por padrão, a língua secundária é \texttt{none}, o que significa que não há uma língua secundária.
 \end{itemize}
+Note que as opções de línguas somente automatizam os títulos como ``Abstract'', ``Resumo'', ``Contents'', etc. É possível escrever o texto em outras línguas, desde que esses títulos sejam alterados manualmente. Alguns ambientes já possuem opções para alterar o título manualmente.
 
 \subsection{Uso do pacote \texttt{glossaries}}
 Caso deseje utilizar o pacote \texttt{glossaries}, você pode adicionar novos acrônimos e notações utilizando os comandos predefinidos \texttt{\textbackslash newacronym\{label\}\{sigla\}\{descrição\}} e \texttt{\textbackslash newnotation\{label\}\{notação\}\{descrição\}}, respectivamente. Por exemplo, o acrônimo \gls{uav} e a notação \gls{Rn} foram adicionados utilizando esses comandos. Os acrônimos serão ordenados em ordem alfabética e as notações em ordem de definição.
 
-Não é necessário utilizar o comando \texttt{\textbackslash gls\{label\}} (ou algo similar) para referenciar os acrônimos e notações, pois o pacote \texttt{macrothesis} irá automaticamente adicionar os acrônimos e notações à lista, independentemente de serem utilizados no texto ou não. Apesar disso, você deve definir um label para cada acrônimo e notação.
+Não é necessário utilizar o comando \texttt{\textbackslash gls\{label\}} (ou algo similar) para referenciar os acrônimos e notações, pois o pacote \texttt{macrothesis} irá automaticamente adicionar todos os acrônimos e notações à lista, independentemente de serem utilizados no texto ou não. Apesar disso, você \textbf{deve} definir um label único para cada acrônimo e notação.
 
 Esses termos devem ser adicionados no preâmbulo (antes do \verb|begin{document}|) da seguinte forma:
 \begin{verbatim}
@@ -100,7 +110,12 @@ Esses termos devem ser adicionados no preâmbulo (antes do \verb|begin{document}
 
 \newnotation{Rn}{$\mathbb{R}^n$}{Euclidean space of dimension $n$}
 \newnotation{frobnorm}{$\|\cdot\|_F$}{Frobenius norm}
+
+\begin{document}
+...
+\end{document}
 \end{verbatim}
+É possível adicionar as notações e acrônimos em arquivos separados, importando-se esses arquivos antes do preâmbulo utilizando \texttt{}
 
 Note que o pacote \texttt{glossaries} será carregado por padrão com as opções \texttt{acronym} e \texttt{symbols}. Caso deseje modificar essas opções, você deve utilizar a opção \texttt{noglossaries} do pacote \texttt{macrothesis} e carregar o pacote \texttt{glossaries} manualmente.
 
@@ -120,7 +135,8 @@ Para alterar o título, o autor, o orientador, etc. do documento, você deve uti
     \advisorname{Dr. Jane Smith}
     \coadvisorname{Dr. Foo Bar}
     \universityname{Universidade Federal de Minas Gerais}
-    \researchgroupname{MACRO Research Group - Mechatronics, Control, and Robotics}
+    \researchgroupname{MACRO Research Group - Mechatronics,
+     Control, and Robotics}
     \programname{Graduate Program in Electrical Engineering}
     \locationname{Belo Horizonte, Brazil}
     ...
@@ -132,7 +148,15 @@ Para alterar o título, o autor, o orientador, etc. do documento, você deve uti
 \end{verbatim}
 O comando \texttt{\textbackslash coadvisorname\{Coorientador\}} é opcional e deve ser utilizado caso haja um coorientador. Para adicionar um segundo coorientador, você deve utilizar o comando da seguinte forma: \texttt{\textbackslash coadvisorname[Segundo Coorientador]\{Primeiro Coorientador\}}.
 
-Para adicionar a dedicatória, os agradecimentos, e os resumos, você deve utilizar os comandos \texttt{\textbackslash dedication\{Dedicatória\}}, \texttt{\textbackslash acknowledgments\{Agradecimentos\}}, \texttt{\textbackslash abstract\{Resumo\}}, e \texttt{\textbackslash abstractsecond\{Abstract\}}. Por exemplo, para adicionar a dedicatória e os agradecimentos, você deve utilizar os comandos:
+Para adicionar a dedicatória, os agradecimentos, e os resumos, você deve utilizar os comandos:
+\begin{itemize}
+    \item \texttt{\textbackslash dedication\{Dedicatória\}}
+    \item \texttt{\textbackslash acknowledgments\{Agradecimentos\}}
+    \item \texttt{\textbackslash abstract\{Resumo\}}
+    \item \texttt{\textbackslash abstractsecond\{Abstract\}}
+\end{itemize}
+
+Por exemplo, para adicionar a dedicatória e os agradecimentos, você deve utilizar os comandos:
 \begin{verbatim}
     \dedication{To my family.}
     \acknowledgments{
@@ -156,10 +180,11 @@ Caso necessário, é possível modificar o título das seções de abstracts e a
 \section{TODO}
 O pacote ainda está em desenvolvimento e algumas funcionalidades ainda não foram implementadas. Algumas das funcionalidades que ainda serão implementadas são:
 \begin{itemize}
-    \item Adicionar opções para alterar as línguas utilizadas no documento.
-    \item Adicionar opção para selecionar "Thesis" ou "Dissertation". Além de selecionar "Master" ou "Doctor".
-    \item Melhorar a forma como a opção \texttt{noglossaries} é tratada.
-    \item Adicionar opções para o pacote \texttt{hyperref} ou adicionar uma opção para desabilitar o pacote.
+    % \item Adicionar opções para alterar as línguas utilizadas no documento.
+    % \item Adicionar opção para selecionar "Thesis" ou "Dissertation". Além de selecionar "Master" ou "Doctor".
+    % \item Melhorar a forma como a opção \texttt{noglossaries} é tratada.
+    % \item Adicionar opções para o pacote \texttt{hyperref} ou adicionar uma opção para desabilitar o pacote.
+    \item Traduzir automaticamente Dissertation/Thesis, Master/Doctor e o texto da capa;
     \item Somente mostrar a lista de figuras e a lista de tabelas caso haja figuras e tabelas no documento.
     \item Melhorar o visual das listas de acrônimos e notações.
 \end{itemize}
