@@ -1,7 +1,8 @@
 \documentclass[dissertation,master,firstlang=english,secondlang=brazil]{macrothesis}
 % The package by default will load the glossaries and natbib packages
 % If you want to disable them, use option `noglossaries` or `nonatbib`
-\usepackage{blindtext}
+% FOR FINAL VERSION, USE THE OPTION 'final'
+\usepackage{blindtext} % For dummy text
 \usepackage{amsmath,amsfonts,amssymb}
 \usepackage{verbatim}
 \usepackage{textcomp}
@@ -14,7 +15,6 @@
 % \coadvisorname[Second Co-advisor]{First Co-advisor }
 
 % The following commands set the department, university, research group, program, and location names. The default values are exactly:
-% \departmentname{Department of Electrical Engineering}
 % \universityname{Universidade Federal de Minas Gerais}
 % \researchgroupname{MACRO Research Group - Mechatronics, Control, and Robotics}
 % \programname{Graduate Program in Electrical Engineering}
@@ -49,7 +49,7 @@
 % The package by default will load the glossaries package
 % If you want to disable it, use option `noglossaries`
 % To add new acronyms, use the command as following:
-\newacronym{uav}{UAV}{Unmanned aerial vehicle}
+\newacronym{uav}{UAV}{Uncrewed aerial vehicle}
 \newacronym{dof}{DOF}{Degrees of freedom}
 \newacronym{ufmg}{UFMG}{Universidade Federal de Minas Gerais}
 % To add new notations, use the command as following:
@@ -68,6 +68,10 @@
 % Acronyms.tex and Notations.tex in the same folder as the main file
 % We assume by default the titles Acronyms and Notations
 
+% Adds the defense certificate and the cataloging page
+% If no path is provided, raises a warning.
+\fichacatalografica{template/fichacatalografica.pdf}
+% \atadefesa{template/fichacatalografica.pdf}
 
 
 \begin{document}
@@ -85,6 +89,7 @@ Para utilizar o pacote, simplesmente adicione o comando \texttt{\textbackslash u
 \section{Opções do pacote}
 O pacote \texttt{macrothesis} possui algumas opções que podem ser utilizadas para personalizar o documento. As opções disponíveis são:
 \begin{itemize}
+    \item \texttt{final}: Muda o modelo para um formato mais parecido com o aceito pela UFMG (note que isso ainda continuará infringindo algumas normas, porém foi aceito assim pela biblioteca em 2025). Ela altera a capa para o padrão UFMG; remove a numeração em romano, deixa a numeração única considerando a capa como página 0; não mostra a numeração do preâmbulo; coloca a numeração de todas as páginas no topo à direita. Veja a \cref{sec:modeloufmg}.
     \item \texttt{noglossaries}: Desabilita o pacote \texttt{glossaries} que é utilizado para gerenciar acrônimos e notações. Esta opção é útil caso você deseje utilizar um pacote diferente para gerenciar acrônimos e notações ou caso você deseje utilizar outras opções para o pacote. É possível definir uma página de acrônimos e notações manualmente utilizando os comandos \texttt{\textbackslash setnotationpage}.
     \item \texttt{nonatbib}: Desabilita o pacote \texttt{natbib} que é utilizado para gerenciar referências bibliográficas. Esta opção é útil caso você deseje utilizar um pacote diferente para gerenciar referências bibliográficas ou caso você deseje utilizar outras opções para o pacote.
     \item \texttt{nohyperref}: Desabilita o pacote \texttt{hyperref} que é utilizado para gerar links no documento. Esta opção é útil caso você deseje utilizar um pacote diferente para gerar links ou caso você deseje utilizar outras opções para o pacote.
@@ -95,7 +100,7 @@ O pacote \texttt{macrothesis} possui algumas opções que podem ser utilizadas p
     \item \texttt{firstlang=<lingua>}: Define a língua principal do documento. Por padrão, a língua principal é o inglês. As opções disponíveis são: \\\emph{\supportedlangs}. 
     \item \texttt{secondlang=<lingua>}: Define a língua secundária do documento. As opções disponíveis são as mesmas. Por padrão, a língua secundária é \texttt{none}, o que significa que não há uma língua secundária.
 \end{itemize}
-Note que as opções de línguas somente automatizam os títulos como ``Abstract'', ``Resumo'', ``Contents'', etc. É possível escrever o texto em outras línguas, desde que esses títulos sejam alterados manualmente. Alguns ambientes já possuem opções para alterar o título manualmente.
+Note que as opções de línguas somente automatizam os títulos como ``Abstract'', ``Resumo'', ``Contents'', etc, além das informações da folha de rosto. É possível escrever o texto em outras línguas, desde que esses títulos sejam alterados manualmente. Alguns ambientes já possuem opções para alterar o título manualmente.
 
 \subsection{Uso do pacote \texttt{glossaries}}
 Caso deseje utilizar o pacote \texttt{glossaries}, você pode adicionar novos acrônimos e notações utilizando os comandos predefinidos \texttt{\textbackslash newacronym\{label\}\{sigla\}\{descrição\}} e \texttt{\textbackslash newnotation\{label\}\{notação\}\{descrição\}}, respectivamente. Por exemplo, o acrônimo \gls{uav} e a notação \gls{Rn} foram adicionados utilizando esses comandos. Os acrônimos serão ordenados em ordem alfabética e as notações em ordem de definição.
@@ -104,7 +109,7 @@ Não é necessário utilizar o comando \texttt{\textbackslash gls\{label\}} (ou 
 
 Esses termos devem ser adicionados no preâmbulo (antes do \verb|begin{document}|) da seguinte forma:
 \begin{verbatim}
-\newacronym{uav}{UAV}{Unmanned aerial vehicle}
+\newacronym{uav}{UAV}{Uncrewed aerial vehicle}
 \newacronym{dof}{DOF}{Degrees of freedom}
 \newacronym{ufmg}{UFMG}{Universidade Federal de Minas Gerais}
 
@@ -115,7 +120,7 @@ Esses termos devem ser adicionados no preâmbulo (antes do \verb|begin{document}
 ...
 \end{document}
 \end{verbatim}
-É possível adicionar as notações e acrônimos em arquivos separados, importando-se esses arquivos antes do preâmbulo utilizando \texttt{}
+É possível adicionar as notações e acrônimos em arquivos separados, importando-se esses arquivos antes do preâmbulo utilizando \texttt{\textbackslash input\{acronyms\_notation.tex\}} por exemplo.
 
 Note que o pacote \texttt{glossaries} será carregado por padrão com as opções \texttt{acronym} e \texttt{symbols}. Caso deseje modificar essas opções, você deve utilizar a opção \texttt{noglossaries} do pacote \texttt{macrothesis} e carregar o pacote \texttt{glossaries} manualmente.
 
@@ -177,6 +182,103 @@ Por exemplo, para adicionar a dedicatória e os agradecimentos, você deve utili
 \end{verbatim}
 Caso necessário, é possível modificar o título das seções de abstracts e acknowledgments utilizando os comandos da seguinte forma: \texttt{\textbackslash abstract[Título em sua língua]\{Texto\}} e \texttt{\textbackslash acknowledgments[Título em sua língua]\{Texto\}}.
 
+Caso você não queira usar o pacote \texttt{glossaries}, a notação pode ser inserida através do comanndo \texttt{\textbackslash setnotationpage\{...\}}.
+
+Para adicionar a ficha catalográfica, utilize o comando \texttt{\textbackslash fichacatalografica\{PATH\}}. O arquivo deve ser um PDF e o caminho deve ser relativo ao arquivo principal.
+
+Para adicionar a ata de defesa (ou folha de aprovacao), utilize o comando \texttt{\textbackslash atadefesa\{PATH\}}. O arquivo deve ser um PDF e o caminho deve ser relativo ao arquivo principal.
+
+Note que o modelo irá gerar um Warning caso não haja uma ficha catalográfica ou uma ata de defesa. Isso é feito para garantir que o usuário não esqueça de adicionar esses arquivos na versão final. Enquanto o trabalho estiver em desenvolvimento, você pode ignorar esse Warning. Como forma de exemplo, apenas foi adicionado um PDF de ficha catalográfica, note que há um Warning na compilação: \emph{Package macrothesis: Defense certificate (Ata de Defesa) not provided. This warning can be ignored in draft versions.}
+
+Para um exemplo completo utilizando o modelo, veja o repositório \url{https://github.com/fbartelt/dissertation/blob/main/main.tex}
+
+\subsection{Features}
+O modelo macro também vem com algumas funcionalidades adicionais, como:
+\begin{feature}
+    \item Ambientes Theorem, Lemma, Proposition, Corollary, Definition, Remark, Example, Assumption, Claim, Conjecture, Fact, Problem, Solution, Criterion; \label{feat:envs}
+    \item Listas de propriedades (\texttt{property}) e features (\texttt{feature}). \label{feat:lists}
+\end{feature}
+Essas listas e ambientes já vem com as definições necessárias pelo pacote \texttt{cref}. Por exemplo, os ambientes listados em \cref{feat:envs} podem ser feitos da seguinte forma:
+\begin{definition}
+    \label{def:example}
+    This is an example of a definition. The label is automatically added to the list of definitions.
+\end{definition}
+\begin{definition}
+    \label{def:example2}
+    Um grupo é um conjunto não vazio $G$ com uma operação binária $\cdot$ que satisfaz as seguintes propriedades:
+    \begin{property}
+        \item Associatividade: Para todo $a,b,c \in G$, temos que $(a \cdot b) \cdot c = a \cdot (b \cdot c)$. \label{prop:associativity}
+        \item Elemento neutro: Existe um elemento $e \in G$ tal que para todo $a \in G$, temos que $a \cdot e = e \cdot a = a$. \label{prop:identity}
+        \item Inverso: Para todo $a \in G$, existe um elemento $b \in G$ tal que $a \cdot b = b \cdot a = e$. \label{prop:inverse}
+        \item Fechamento: Para todo $a,b \in G$, temos que $a \cdot b \in G$. \label{prop:closure}
+    \end{property}
+\end{definition}
+
+As \cref{def:example,def:example2} são exemplos de definição. A \cref{def:example2} é um exemplo de definição com uma lista de propriedades, assim pode-se referenciar que a \cref{prop:associativity} é uma propriedade de um grupo, assim como as \cref{prop:identity,prop:inverse,prop:closure}. Note que os plurais são controlados pelo pacote \texttt{cref}.
+
+\begin{theorem}
+    Um sistema modelado por Newton-Aclecio-Euler é muito mais eficiente do que um sistema modelado por Euler-Lagrange. \label{thm:example}
+\end{theorem}
+\begin{proof}
+    A prova é trivial e deixada como exercício para o leitor.
+\end{proof}
+
+\begin{lemma}
+    Um exemplo de lema. \label{lem:example}
+\end{lemma}
+\begin{proposition}
+    Um exemplo de proposição. \label{propo:example}
+\end{proposition}
+\begin{corollary}
+    Um exemplo de corolário. \label{cor:example}
+\end{corollary}
+\begin{remark}
+    Um exemplo de observação. \label{rem:example}
+\end{remark}
+\begin{example}
+    Um exemplo de exemplo. \label{ex:example}
+\end{example}
+\begin{assumption}
+    Um exemplo de suposição. \label{ass:example}
+\end{assumption}
+
+\begin{conjecture}
+    Um exemplo de conjectura. \label{cnj:example}
+\end{conjecture}
+\begin{claim}
+    Um exemplo de afirmação. \label{clm:example}
+\end{claim}
+\begin{fact}
+    Um exemplo de fato. \label{fact:example}
+\end{fact}
+\begin{problem}
+    Um exemplo de problema. \label{prob:example}
+\end{problem}
+\begin{solution}
+    Um exemplo de solução. \label{sol:example}
+\end{solution}
+\begin{criterion}
+    Um exemplo de critério. \label{crit:example}
+\end{criterion}
+
+Note que os ambientes \cref{lem:example,propo:example,cor:example} necessitam de uma prova, enquanto os ambientes \cref{rem:example,ex:example,ass:example,cnj:example,clm:example,fact:example,prob:example,sol:example,crit:example} tem o símbolo $\qedsymbol$ adicionados automaticamente para tornar fácil a visualização do fim do ambiente.
+
+O primeiro número desses ambientes se refere ao capítulo, enquanto o segundo número é compartilhado por todos eles, o que facilita encontrar essas referências por número.
+
+\section{Modelo UFMG} \label{sec:modeloufmg}
+A biblioteca da UFMG não aceita o modelo MACRO, que não está nas normas ABNT. Portanto, o ideal é enviar o modelo macro para o PPGEE e o modelo UFMG para a biblioteca. Para conferir as normas da UFMG acesse \url{https://repositorio.ufmg.br/static/politica/diretrizes-para-normalizacao-de-trabalhos-academicos-da-UFMG.pdf}.
+
+\textbf{Utilize a opção \texttt{final} antes de enviar para a biblioteca}.
+
+Dentre as reclamações que se teve até então (2025) a respeito do modelo MACRO:
+\begin{itemize}
+    \item Não é permitido numeração de folhas em romanos;
+    \item Não deixe folhas em branco;
+    \item A contagem de folhas não é a partir da capa, mas sim a partir da folha de rosto;
+    \item A numeração só é visível a partir do primeiro capítulo (Introdução);
+    \item O Resumo e Abstract devem ter apenas 1 página, com palavras-chave separadas por ponto e vírgula e espaçadas do resumo por 1 linha; Nenhum desses é indentado.
+\end{itemize}
+
 \section{TODO}
 O pacote ainda está em desenvolvimento e algumas funcionalidades ainda não foram implementadas. Algumas das funcionalidades que ainda serão implementadas são:
 \begin{itemize}
@@ -184,14 +286,42 @@ O pacote ainda está em desenvolvimento e algumas funcionalidades ainda não for
     % \item Adicionar opção para selecionar "Thesis" ou "Dissertation". Além de selecionar "Master" ou "Doctor".
     % \item Melhorar a forma como a opção \texttt{noglossaries} é tratada.
     % \item Adicionar opções para o pacote \texttt{hyperref} ou adicionar uma opção para desabilitar o pacote.
-    \item Traduzir automaticamente Dissertation/Thesis, Master/Doctor e o texto da capa;
-    \item Somente mostrar a lista de figuras e a lista de tabelas caso haja figuras e tabelas no documento.
-    \item Melhorar o visual das listas de acrônimos e notações.
+    % \item Traduzir automaticamente Dissertation/Thesis, Master/Doctor e o texto da capa;
+    \item Adicionar possibilidade de tradução do Acknowledgments;
+    \item Adicionar dedicatória (o \textbackslash dedication\{...\} já existe, mas seria a epígrafe);
+    \item Somente mostrar a lista de figuras e a lista de tabelas caso haja figuras e tabelas no documento;
+    % \item Melhorar o visual das listas de acrônimos e notações.
 \end{itemize}
 
 \chapter{Mathematical Background}
 \section{Math}
 \blindmathtrue\blindtext[2]
+
+\cref{tab:simple_table}
+\begin{table}
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Column 1} & \textbf{Column 2} & \textbf{Column 3} \\
+        \hline
+        Row 1 & Row 1 & Row 1 \\
+        Row 2 & Row 2 & Row 2 \\
+        Row 3 & Row 3 & Row 3 \\
+        \hline
+    \end{tabular}
+    \caption{A simple table}
+    \label{tab:simple_table}
+\end{table}
+
+
+\cref{fig:simple_figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{template/logo.pdf}
+    \caption{Macro logo}
+    \label{fig:simple_figure}
+\end{figure}
+
 \subsection{Abstract Algebra}
 \blindmathpaper
 \subsubsection{Group Theory}
@@ -204,7 +334,7 @@ O pacote ainda está em desenvolvimento e algumas funcionalidades ainda não for
 \chapter{Conclusions}
 \blindtext[1]
 
-\bibliographystyle{plainnat}
+\bibliographystyle{abbrvnat}
 \bibliography{references}
 
 \end{document}
