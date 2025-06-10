@@ -643,7 +643,7 @@ french}
         \PackageInfo{macrothesis}{Adding all acronyms and notations whether they are used or not.}% 
         \glsaddall
         \printnoidxglossary[type=acronym,sort=word]
-        \printnoidxglossary[type=notation,style=long]
+        \printnoidxglossary[type=notation,style=long,sort=def]
     }{%
         \selectlanguage{\@mainlanguage}%
         \@notationpage

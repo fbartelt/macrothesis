@@ -1,0 +1,49 @@
+name: Release LaTeX Package on Tag
+
+on:
+  push:
+    tags:
+      - 'v*'   # Triggers on any tag starting with 'v' (e.g., v1.0.0)
+
+jobs:
+  package-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Get full history for version detection
+
+      - name: Extract version from tag
+        id: version
+        # Remove 'v' prefix from tag (v1.2.3 → 1.2.3)
+        run: |
+          VERSION="${GITHUB_REF#refs/tags/v}"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "ZIP_NAME=macrothesis-$VERSION.zip" >> $GITHUB_ENV
+
+      - name: Create versioned archive
+        run: |
+          # Include LaTeX source files
+          find . -type f \( -name '*.tex' -o -name '*.cls' -o -name '*.bib' -o -name '*.pdf' \) \
+            -exec zip ${{ env.ZIP_NAME }} {} +
+          
+          # Add template directory if exists
+          if [ -d "template" ]; then
+            zip -r ${{ env.ZIP_NAME }} template
+          fi
+          
+          # Verify ZIP was created
+          if [ ! -f "${{ env.ZIP_NAME }}" ]; then
+            echo "::error::No files found for archive"
+            exit 1
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: "Version ${{ steps.version.outputs.version }}"
+          body: "MacroThesis class release v${{ steps.version.outputs.version }}"
+          files: ${{ env.ZIP_NAME }}
+          draft: false
+          prerelease: false
