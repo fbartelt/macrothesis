@@ -22,27 +22,26 @@
 
 %%% Preambles %%%
 % Dedication and Acknowledgments
-\dedication{To my family.}
+\dedication{\hfill To my family.}
+\epigraph{\hfill``To be or not to be, that is the question.''\\\hfill William Shakespeare}
 \acknowledgments{
-    This is an acknowledgments. If you are using another language as main 
-    (not english), then you should use this command as following:
+    This is an acknowledgments. If you want to change the title, you should use the command as following:
 
-    ``\textbackslash acknowledgments[Acknowledgments in your language]\{Text\}''
+    ``\textbackslash acknowledgments[TITLE]\{Text\}''
 }
-
+\acknowledgmentssecond{
+    Esse é um exemplo de agradecimento. Caso deseje alterar o título, você deve utilizar o comando da seguinte forma: ``\textbackslash acknowledgmentssecond[TITULO]\{Text\}''.
+}
 % Abstracts (in both languages)
 \abstract{
-    This is the abstract in the first language. If you are using another language as main
-    (not english), then you should use this command as following:
-
-    ``\textbackslash abstract[Abstract in your language]\{Text\}''
+    This is the abstract in the first language. If you want to change the title of the abstract, you should use the command as following: ``\textbackslash abstract[TITLE]\{Text\}''. This work is very cool.
 }
+\keywords{example; thesis; Macro; LaTeX; UFMG}
 \abstractsecond{
-    Esse é um exemplo de abstract. Caso sua segunda língua não seja português,
-    você deve usar o comando da seguinte forma:
-
-    ``\textbackslash abstractsecond[Abstract in second language]\{Text\}''
+    Esse é um exemplo de abstract. Caso deseje alterar o título do abstract, você deve utilizar o comando da seguinte forma: ``\textbackslash abstractsecond[TITULO]\{Text\}''.
+    Esse trabalho é muito maneiro.
 }
+\keywordssecond{exemplo; tese; Macro; LaTeX; UFMG}
 
 %%% Acronyms and Notations %%%
 
@@ -86,6 +85,8 @@
 %----------------------------------------------------------------------------------------
 \chapter{Introduction}
 Para utilizar o pacote, simplesmente adicione o comando \texttt{\textbackslash usepackage\{macrothesis\}} ao preâmbulo do seu documento. Não delete o arquivo \texttt{template/logo.pdf}, já que ele é utilizado para gerar a capa do documento. 
+
+Você está com a versão do pacote: \macrothesisversion. Verifique o repositório do pacote para ver as últimas atualizações: \url{https://github.com/fbartelt/macrothesis}. Caso a Release seja mais nova que a versão atual, baixe o pacote novamente. Se você estiver utilizando um template do Overleaf, muito provavelmente ele está desatualizado.
 \section{Opções do pacote}
 O pacote \texttt{macrothesis} possui algumas opções que podem ser utilizadas para personalizar o documento. As opções disponíveis são:
 \begin{itemize}
@@ -99,8 +100,12 @@ O pacote \texttt{macrothesis} possui algumas opções que podem ser utilizadas p
     \item \texttt{master}: Usa o título ``Master''. Não é necessário utilizar essa opção, pois é o padrão.
     \item \texttt{firstlang=<lingua>}: Define a língua principal do documento. Por padrão, a língua principal é o inglês. As opções disponíveis são: \\\emph{\supportedlangs}. 
     \item \texttt{secondlang=<lingua>}: Define a língua secundária do documento. As opções disponíveis são as mesmas. Por padrão, a língua secundária é \texttt{none}, o que significa que não há uma língua secundária.
+    \item \texttt{nolof}: Desabilita a lista de figuras.
+    \item \texttt{notlot}: Desabilita a lista de tabelas.
 \end{itemize}
 Note que as opções de línguas somente automatizam os títulos como ``Abstract'', ``Resumo'', ``Contents'', etc, além das informações da folha de rosto. É possível escrever o texto em outras línguas, desde que esses títulos sejam alterados manualmente. Alguns ambientes já possuem opções para alterar o título manualmente.
+
+As listas de figuras e tabelas são automaticamente desabilitadas caso não haja figuras ou tabelas no documento. Caso você queira desabilitar essas listas mesmo que haja figuras ou tabelas, você pode utilizar as opções \texttt{nolof} e \texttt{notlot}.
 
 \subsection{Uso do pacote \texttt{glossaries}}
 Caso deseje utilizar o pacote \texttt{glossaries}, você pode adicionar novos acrônimos e notações utilizando os comandos predefinidos \texttt{\textbackslash newacronym\{label\}\{sigla\}\{descrição\}} e \texttt{\textbackslash newnotation\{label\}\{notação\}\{descrição\}}, respectivamente. Por exemplo, o acrônimo \gls{uav} e a notação \gls{Rn} foram adicionados utilizando esses comandos. Os acrônimos serão ordenados em ordem alfabética e as notações em ordem de definição.
@@ -153,9 +158,10 @@ Para alterar o título, o autor, o orientador, etc. do documento, você deve uti
 \end{verbatim}
 O comando \texttt{\textbackslash coadvisorname\{Coorientador\}} é opcional e deve ser utilizado caso haja um coorientador. Para adicionar um segundo coorientador, você deve utilizar o comando da seguinte forma: \texttt{\textbackslash coadvisorname[Segundo Coorientador]\{Primeiro Coorientador\}}.
 
-Para adicionar a dedicatória, os agradecimentos, e os resumos, você deve utilizar os comandos:
+Para adicionar a dedicatória, epígrafe, os agradecimentos, e os resumos, você deve utilizar os comandos:
 \begin{itemize}
     \item \texttt{\textbackslash dedication\{Dedicatória\}}
+    \item \texttt{\textbackslash epigraph\{Epígrafe\}}
     \item \texttt{\textbackslash acknowledgments\{Agradecimentos\}}
     \item \texttt{\textbackslash abstract\{Resumo\}}
     \item \texttt{\textbackslash abstractsecond\{Abstract\}}
@@ -164,6 +170,7 @@ Para adicionar a dedicatória, os agradecimentos, e os resumos, você deve utili
 Por exemplo, para adicionar a dedicatória e os agradecimentos, você deve utilizar os comandos:
 \begin{verbatim}
     \dedication{To my family.}
+    \epigraph{``To be or not to be, that is the question.''\\William Shakespeare}
     \acknowledgments{
         Long and emotional text here...
     }
@@ -276,7 +283,25 @@ Dentre as reclamações que se teve até então (2025) a respeito do modelo MACR
     \item Não deixe folhas em branco;
     \item A contagem de folhas não é a partir da capa, mas sim a partir da folha de rosto;
     \item A numeração só é visível a partir do primeiro capítulo (Introdução);
-    \item O Resumo e Abstract devem ter apenas 1 página, com palavras-chave separadas por ponto e vírgula e espaçadas do resumo por 1 linha; Nenhum desses é indentado.
+    \item O Resumo e Abstract devem ter apenas 1 página, com palavras-chave separadas por ponto e vírgula e espaçadas do resumo por 1 linha; Nenhum desses é indentado;
+    \item Posicionar os títulos dos capítulos e dos elementos pré-textuais no canto esquerdo das páginas;
+    \item Remover do sumário as listas, pois ele deve iniciar com o primeiro elemento textual (introdução);
+    \item Corrigir a ordem sequencial do elementos pré-textuais. A ordem correta é:
+    \begin{enumerate}
+        \item Capa (obrigatória);
+        \item Folha de rosto (obrigatória);
+        \item Ficha catalográfica - (obrigatória);
+        \item Folha de aprovação ou Ata de defesa - (obrigatória);
+        \item Dedicatória(opcional);
+        \item Agradecimento(opcional);
+        \item Epígrafe(opcional);
+        \item Resumo em língua vernácula (obrigatório);
+        \item Resumo em língua estrangeira (obrigatório);
+        \item Lista de ilustrações(opcional);
+        \item Lista de tabelas (opcional);
+        \item Lista de abreviaturas e siglas (opcional);
+        \item Sumário (obrigatório).
+    \end{enumerate}
 \end{itemize}
 
 \section{TODO}
@@ -288,8 +313,8 @@ O pacote ainda está em desenvolvimento e algumas funcionalidades ainda não for
     % \item Adicionar opções para o pacote \texttt{hyperref} ou adicionar uma opção para desabilitar o pacote.
     % \item Traduzir automaticamente Dissertation/Thesis, Master/Doctor e o texto da capa;
     \item Adicionar possibilidade de tradução do Acknowledgments;
-    \item Adicionar dedicatória (o \textbackslash dedication\{...\} já existe, mas seria a epígrafe);
-    \item Somente mostrar a lista de figuras e a lista de tabelas caso haja figuras e tabelas no documento;
+    % \item Adicionar dedicatória (o \textbackslash dedication\{...\} já existe, mas seria a epígrafe);
+    % \item Somente mostrar a lista de figuras e a lista de tabelas caso haja figuras e tabelas no documento;
     % \item Melhorar o visual das listas de acrônimos e notações.
 \end{itemize}
 

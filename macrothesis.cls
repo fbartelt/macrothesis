@@ -1,5 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{macrothesis}[2024/11/01 Macro Thesis Template]
+\ProvidesClass{macrothesis}[2025/18/06 v1.1.0 Macro Thesis Template]
+\newcommand{\macrothesisversion}{v1.1.0 (2025/18/06)}
 
 \RequirePackage{ifthen}
 \RequirePackage{etoolbox} % For boolean flags
@@ -20,6 +21,8 @@
 \newcommand{\@coursename}{Electrical Engineering}
 \newcommand{\@locationName}{Belo Horizonte, Brazil}
 \newcommand{\@notationpage}{}
+\newcommand{\@dedicationContent}{}
+\newcommand{\@epigraphContent}{}
 \newcommand{\@ufmgformat}{false}
 
 \newcommand{\supportedlangs}{english, american, USenglish, canadian, british, 
@@ -159,6 +162,14 @@ french}
 \DeclareOption{doctor}{%
     \renewcommand{\@masterdoc}{doctor}%
 }
+% ---------------------------------------------------------------------------- %
+%                              CUSTOM OPTIONS
+% ---------------------------------------------------------------------------- %
+\newif\if@showlof \@showloftrue
+\newif\if@showlot \@showlottrue
+
+\DeclareOption{nolof}{\@showloffalse}
+\DeclareOption{nolot}{\@showlotfalse}
 % Process options
 \ProcessOptions\relax
 
@@ -183,17 +194,22 @@ french}
 \RequirePackage{graphicx} % Required for including images
 \RequirePackage[a4paper]{geometry} % Required for adjusting page dimensions and margins
 \geometry{verbose,tmargin=3cm,bmargin=2cm,lmargin=3cm,rmargin=2cm,headheight=15pt}
+
 \RequirePackage{setspace} % Required for changing line spacing
 \RequirePackage{microtype} % Improves the spacing between words and letters
 \onehalfspacing
 
 % Other packages
-\RequirePackage{fancyhdr} % Required for custom headers -- Whole style of template
+\RequirePackage{fancyhdr} % Required for custom headers
 \RequirePackage{xcolor} % Required for specifying colors by name
 \RequirePackage{lmodern} % Latin Modern font
-\RequirePackage[lmodern]{quotchap} % used to customize the appearance of chapter titles, often adding a quotation or some style modification
+\RequirePackage[lmodern]{quotchap} % This is the main style of the macro package (makes the big numbers in chapters, etc.)
 % \RequirePackage{algorithmic}
-\RequirePackage[nottoc]{tocbibind} % Add bibliography/index/contents to Table of Contents, not including ToC itself
+\ifthenelse{\equal{\@ufmgformat}{true}}{%
+  \RequirePackage[nottoc,notlot,notlof]{tocbibind} % Dont add bibliography/index/contents to Table of Contents
+}{%
+  \RequirePackage[nottoc]{tocbibind} % Add bibliography/index/contents to Table of Contents, not including ToC itself
+}
 \RequirePackage{import} % Used to import files from other directories
 \RequirePackage{caption} % Required for customizing captions
 \RequirePackage{subcaption} % Required for subfigures
@@ -223,6 +239,16 @@ french}
 }{%
     \PackageInfo{macrothesis}{cleverref package not loaded.}%
 }
+% ---------------------------------------------------------------------------- %
+%                              LOAD LAST
+% ---------------------------------------------------------------------------- %
+% UFMG requires PDF/A format for thesis submission
+\ifthenelse{\equal{\@ufmgformat}{true}}{%
+  \RequirePackage[a-1b]{pdfx}
+}{%
+}
+% This package is used to include list of figures and tables only if there are figures or tables
+\RequirePackage[figure,table]{totalcount}
 % ---------------------------------------------------------------------------- %
 %                              CLASS FEATURES
 % ---------------------------------------------------------------------------- %
@@ -270,6 +296,7 @@ french}
   \Crefname{listprop}{Property}{Properties}
   \addtotheorempostheadhook[definition]{\crefalias{propertyi}{listprop}}
   \crefname{featurei}{Feature}{Features}
+  \Crefname{figure}{Figure}{Figures}
 }{%
 }
 % Change footnote numbering to symbols in minipage
@@ -282,7 +309,7 @@ french}
     \renewcommand{\footrulewidth}{0pt} % No footer rule
   }
 % ---------------------------------------------------------------------------- %
-%                WORKAROUND TO REMOVE PAGE NUMBERS IN PREAMBLE
+%                            UFMG FORMAT WORKAROUNDS
 % ---------------------------------------------------------------------------- %
 % All of these are for final version only (option 'final')
 \newcommand{\removestyle}{
@@ -304,6 +331,32 @@ french}
     \renewcommand{\footrulewidth}{0pt} % No footer rule
   }
   \pagestyle{plain} % Set the page style to the modified plain
+}
+
+% Workaround to make chapter titles appear on the left
+\ifthenelse{\equal{\@ufmgformat}{true}}{%
+% \makeatletter
+\renewcommand{\@makechapterhead}[1]{%
+  \chapterheadstartvskip%
+  {\size@chapter
+    \sectfont
+    \raggedright % was \raggedleft
+    {\chapnumfont
+      \ifnum \c@secnumdepth >\m@ne%
+        \if@mainmatter\thechapter\fi
+      \fi
+      \par\nobreak
+    }%
+    % \vskip 10pt % 
+    {\raggedright
+      % ↓ removed "\advance\leftmargin10em" to avoid indentation
+      \interlinepenalty\@M #1\par
+    }%
+  }%
+  \nobreak\chapterheadendvskip\chapterheadendvskip
+}
+% \makeatother
+}{%
 }
 % ---------------------------------------------------------------------------- %
 %                              USER COMMANDS
@@ -340,11 +393,20 @@ french}
 % Command to store research group name
 \newcommand{\researchgroupname}[1]{\renewcommand{\@researchGroupName}{#1}}
 % Command to store dedication text
-\newcommand{\dedication}[1]{\def\@dedicationContent{#1}}
+\newcommand{\dedication}[1]{\renewcommand{\@dedicationContent}{#1}}
+% Command to store epigraph text
+\newcommand{\epigraph}[1]{\renewcommand{\@epigraphContent}{#1}}
 % Command to store acknowledgments text
 \newcommand{\acknowledgments}[2][\acknowledgmentsname]{%
     \def\@acknowledgmentsTitle{#1} % Set title
     \def\@acknowledgmentsContent{#2} % Set content
+}
+% Command to store acknowledgments text in second language
+\newif\if@acknowledgmentssecond
+\newcommand{\acknowledgmentssecond}[2][\acknowledgmentsname]{%
+    \@acknowledgmentssecondtrue % Set the flag to true
+    \def\@acknowledgmentssecondTitle{#1} % Set title
+    \def\@acknowledgmentssecondContent{#2} % Set content
 }
 % Command to set notation and acronyms page
 \newcommand{\setnotationpage}[1]{\renewcommand{\@notationpage}{#1}}
@@ -357,24 +419,44 @@ french}
     \renewcommand{\@atapath}{#1}% Store path
 }
 
-% \newcommand{\abstractname}{Abstract}
-% \providecaptionname{brazil,portuguese,spanish}{\abstractname}{Resumo}
-
 % Command for abstract in first language
 \newcommand{\abstract}[2][\abstractname]{%
     \def\@abstractTitle{#1} % Set title
     \def\@abstractContent{#2} % Set content
 }
 
+\newif\if@abstractsecond % Create a new conditional flag
+% Command to store abstract in second language
+\newcommand{\abstractsecond}[2][\abstractname]{%
+  \abstractsecondtrue % Set the flag to true
+  \def\@secondAbstractTitle{#1} % Set title
+  \def\@secondAbstractContent{#2} % Set content
+}
+
+\newcommand{\keywords}[2][\keywordname]{%
+  \def\@keywordsTitle{#1} % Set title
+  \def\@keywordsContent{#2} % Set content
+}
+\newcommand{\keywordssecond}[2][\keywordname]{%
+  \def\@keywordssecondTitle{#1} % Set title
+  \def\@keywordssecondContent{#2} % Set content
+}
+
 % \newcommand{\acronymname}{Acronyms}
 \newcommand{\notationname}{Notation}
 \newcommand{\acknowledgmentsname}{Acknowledgments}
+% Abstract names are already handled by babel
+\newcommand{\keywordname}{Keywords}
 % checks if option noglossaries was set, if not, define new command
 \ifthenelse{\equal{\@useglossaries}{true}}{%
     % Command to enable glossaries
-    \RequirePackage[acronym,nonumberlist,toc=true]{glossaries}%
-    % \RequirePackage{glossaries-extra}
-    % \RequirePackage{glossary-mcols}
+    \ifthenelse{\equal{\@ufmgformat}{true}}{%
+      % Do not add glossaries to ToC in UFMG format
+      \RequirePackage[acronym,nonumberlist,toc=false]{glossaries}%
+    }{%
+      % Add glossaries to ToC in non-UFMG format
+      \RequirePackage[acronym,nonumberlist,toc=true]{glossaries}%
+    }
     \newglossary[nlg]{notation}{not}{ntn}{\notationname}
     \newcommand{\newnotation}[3]{%
         \newglossaryentry{#1}{%
@@ -384,23 +466,12 @@ french}
             sort=def
         }
     }
-    % \setlength{\glsdescwidth}{0.75\hsize}
 
-    % Allow the symbol column to wrap text
-    % \setlength{\glsentrysymbolwidth}{0.2\hsize} 
     \makenoidxglossaries%
     
 }{%
     % Command to disable glossaries
     \PackageInfo{macrothesis}{glossaries package not loaded. Acronym and notation management will not be available.}%
-}
-
-\newif\ifabstractsecond % Create a new conditional flag
-% Command to store abstract in second language
-\newcommand{\abstractsecond}[2][\abstractname]{%
-    \abstractsecondtrue % Set the flag to true
-    \def\@secondAbstractTitle{#1} % Set title
-    \def\@secondAbstractContent{#2} % Set content
 }
 
 % Cover Page Command
@@ -558,28 +629,46 @@ french}
         }%
     }%    
     % Dedication page
-    \begin{singlespace}
-    \pagebreak{}
-    \end{singlespace}
+    % \null
+    \ifdefempty{\@dedicationContent}{%
+      \PackageInfo{macrothesis}{No dedication content provided. This is optional.}%
+    }{%
+      \cleardoublepage
+      \thispagestyle{empty}
+      \null
+      \vfill
+      \hspace*{8cm}
+      \begin{minipage}{0.5\textwidth}
+        \selectlanguage{\@mainlanguage}%
+        \begin{singlespace}
+        \begin{flushleft}
+          \emph{\@dedicationContent}
+          \par\end{flushleft}
+        \end{singlespace}
+      \end{minipage}
+    }
+    % \begin{singlespace}
+    % \pagebreak{}
+    % \end{singlespace}
 
-    \selectlanguage{\@secondlanguage}%
-    \textbf{\thispagestyle{empty}}
+    % \selectlanguage{\@secondlanguage}%
+    % \textbf{\thispagestyle{empty}}
 
-    \vfill{}
+    % \vfill{}
 
-    \begin{flushright}
-    \begin{minipage}[t]{0.4\columnwidth}%
-    \selectlanguage{\@mainlanguage}%
-    \begin{singlespace}
-    \begin{flushright}
-    \emph{\@dedicationContent}
-    \par\end{flushright}
-    \end{singlespace}
-    %
-    \end{minipage}
-    \par\end{flushright}
+    % \begin{flushright}
+    % \begin{minipage}[t]{0.4\columnwidth}%
+    % \selectlanguage{\@mainlanguage}%
+    % \begin{singlespace}
+    % \begin{flushright}
+    % \emph{\@dedicationContent}
+    % \par\end{flushright}
+    % \end{singlespace}
+    % %
+    % \end{minipage}
+    % \par\end{flushright}
 
-    \vspace{3cm}
+    % \vspace{3cm}
 
     % Acknowledgments
     \selectlanguage{\@mainlanguage}%
@@ -591,6 +680,31 @@ french}
     % \thispagestyle{empty}
     \@acknowledgmentsContent
 
+    \if@acknowledgmentssecond
+        \cleardoublepage
+        \selectlanguage{\@secondlanguage}%
+        \chapter*{\@acknowledgmentssecondTitle}
+        \@acknowledgmentssecondContent
+    \fi
+
+    \ifdefempty{\@epigraphContent}{%
+      \PackageInfo{macrothesis}{No epigraph content provided. This is optional.}%
+    }{
+      \cleardoublepage
+      \thispagestyle{empty}
+      \null
+      \vfill
+      \hspace*{4cm}
+      \begin{minipage}{0.68\textwidth}
+        \selectlanguage{\@mainlanguage}%
+        \begin{singlespace}
+        \begin{flushleft}
+          \emph{\@epigraphContent}
+          \par\end{flushleft}
+        \end{singlespace}
+      \end{minipage}
+    }
+
     % Second language Abstract
     \begin{onehalfspace}
     \pagebreak{}
@@ -598,11 +712,17 @@ french}
     % \pagestyle{empty}
     % NORMA UFMG -- Primeiro Resumo (ptbr) depois Abstract (ou qualquer lingua estrangeira)
     %checks wheter second abstract is empty, if not, prints it
-    \ifabstractsecond
+    \if@abstractsecond
         \selectlanguage{\@secondlanguage}%
         \chapter*{\@secondAbstractTitle}
-        % \thispagestyle{empty}
         \@secondAbstractContent
+        \ifthenelse{\equal{\@ufmgformat}{true}}{%
+          \\[\baselineskip]%
+          \noindent\@keywordssecondTitle: \@keywordssecondContent.
+        }{%
+          \newline\indent
+          \emph{\@keywordssecondTitle:} \@keywordssecondContent.
+        }
     \fi
     
     \begin{singlespace}
@@ -612,17 +732,35 @@ french}
     % First language Abstract
     \selectlanguage{\@mainlanguage}%
     \chapter*{\@abstractTitle}
-    % \thispagestyle{empty}
     \@abstractContent
+    \ifthenelse{\equal{\@ufmgformat}{true}}{%
+      \\[\baselineskip]%
+      \noindent\@keywordsTitle: \@keywordsContent.
+    }{%
+      \newline\indent
+      \emph{\@keywordsTitle:} \@keywordsContent.
+    }
     
     \selectlanguage{\@mainlanguage}%
     \pagebreak{}%
 
     % Table of Contents, Figures and Tables
     \addtocontents{toc}{\protect{\pdfbookmark[0]{\contentsname}{toc}}}%
-    \tableofcontents{}\listoffigures\listoftables
-    
+    % \tableofcontents{}\listoffigures\listoftables
+    \if@showlof
+      \iftotalfigures
+        \listoffigures
+      \fi
+    \fi
+    \if@showlot
+      \iftotaltables
+        \listoftables
+      \fi
+    \fi
+    % \listoffigures\listoftables
     \glossarypage
+    \tableofcontents{}
+    % \glossarypage
 
     \section*{\protect\pagebreak}% For some reason this is necessary
 
@@ -712,5 +850,11 @@ newzealand,UKenglish}{\submissiontext}{{\typelang} submitted to the {\@programNa
 \providecaptionname{spanish}{\submissiontext}{{\typelang} presentada al {\@programName} de la {\@universityName}, como parte de los requisitos para obtener el título de {\titlelang} en {\@coursename}.}
 \providecaptionname{french}{\submissiontext}{{\typelang} présentée au {\@programName} de l'{\@universityName}, en vue de l'obtention du titre de {\titlelang} en {\@coursename}.}
 \providecaptionname{german,ngerman}{\submissiontext}{{\typelang} vorgelegt dem {\@programName} der {\@universityName}, als Teil der Anforderungen für den Grad {\titlelang} im Fachgebiet {\@coursename}.}
-
+% Keywords
+\providecaptionname{brazil,portuguese}{\keywordname}{Palavras-chave}
+\providecaptionname{american,USenglish,english,canadian,british,australian,
+newzealand,UKenglish}{\keywordname}{Keywords}
+\providecaptionname{spanish}{\keywordname}{Palabras clave}
+\providecaptionname{french}{\keywordname}{Mots-clés}
+\providecaptionname{german,ngerman}{\keywordname}{Schlüsselwörter}
 
