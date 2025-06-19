@@ -14,7 +14,7 @@
 % To add a second co-advisor, use the command as following:
 % \coadvisorname[Second Co-advisor]{First Co-advisor }
 
-% The following commands set the department, university, research group, program, and location names. The default values are exactly:
+% The following commands set the university, research group, program, and location names. The default values are exactly:
 % \universityname{Universidade Federal de Minas Gerais}
 % \researchgroupname{MACRO Research Group - Mechatronics, Control, and Robotics}
 % \programname{Graduate Program in Electrical Engineering}
@@ -22,8 +22,8 @@
 
 %%% Preambles %%%
 % Dedication and Acknowledgments
-\dedication{\hfill To my family.}
-\epigraph{\hfill``To be or not to be, that is the question.''\\\hfill William Shakespeare}
+\dedication{To my family.}
+\epigraph{``To be or not to be, that is the question.''\\\hfill William Shakespeare}
 \acknowledgments{
     This is an acknowledgments. If you want to change the title, you should use the command as following:
 
@@ -90,7 +90,8 @@ Você está com a versão do pacote: \macrothesisversion. Verifique o repositór
 \section{Opções do pacote}
 O pacote \texttt{macrothesis} possui algumas opções que podem ser utilizadas para personalizar o documento. As opções disponíveis são:
 \begin{itemize}
-    \item \texttt{final}: Muda o modelo para um formato mais parecido com o aceito pela UFMG (note que isso ainda continuará infringindo algumas normas, porém foi aceito assim pela biblioteca em 2025). Ela altera a capa para o padrão UFMG; remove a numeração em romano, deixa a numeração única considerando a capa como página 0; não mostra a numeração do preâmbulo; coloca a numeração de todas as páginas no topo à direita. Veja a \cref{sec:modeloufmg}.
+    \item \texttt{final}: Muda o modelo para um formato mais parecido com o aceito pela UFMG (note que isso ainda continuará infringindo algumas normas, porém foi aceito assim pela biblioteca em 2025). Para mais detalhes, veja a \cref{sec:modeloufmg}.
+    \item \texttt{raffo}: Utiliza ``Advisors:'' em vez de ``Advisor:'' e ``Co-advisor:'' (com as respectivas traduções). Ambos os nomes são alinhados à esquerda. Esta opção é essencial caso você seja orientando do Prof. Raffo. 
     \item \texttt{noglossaries}: Desabilita o pacote \texttt{glossaries} que é utilizado para gerenciar acrônimos e notações. Esta opção é útil caso você deseje utilizar um pacote diferente para gerenciar acrônimos e notações ou caso você deseje utilizar outras opções para o pacote. É possível definir uma página de acrônimos e notações manualmente utilizando os comandos \texttt{\textbackslash setnotationpage}.
     \item \texttt{nonatbib}: Desabilita o pacote \texttt{natbib} que é utilizado para gerenciar referências bibliográficas. Esta opção é útil caso você deseje utilizar um pacote diferente para gerenciar referências bibliográficas ou caso você deseje utilizar outras opções para o pacote.
     \item \texttt{nohyperref}: Desabilita o pacote \texttt{hyperref} que é utilizado para gerar links no documento. Esta opção é útil caso você deseje utilizar um pacote diferente para gerar links ou caso você deseje utilizar outras opções para o pacote.
@@ -163,6 +164,7 @@ Para adicionar a dedicatória, epígrafe, os agradecimentos, e os resumos, você
     \item \texttt{\textbackslash dedication\{Dedicatória\}}
     \item \texttt{\textbackslash epigraph\{Epígrafe\}}
     \item \texttt{\textbackslash acknowledgments\{Agradecimentos\}}
+    \item \texttt{\textbackslash acknowledgmentssecond\{Acknowledgments\}}
     \item \texttt{\textbackslash abstract\{Resumo\}}
     \item \texttt{\textbackslash abstractsecond\{Abstract\}}
 \end{itemize}
@@ -173,6 +175,9 @@ Por exemplo, para adicionar a dedicatória e os agradecimentos, você deve utili
     \epigraph{``To be or not to be, that is the question.''\\William Shakespeare}
     \acknowledgments{
         Long and emotional text here...
+    }
+    \acknowledgmentssecond{
+        Tradução do Acknowledgments
     }
     \abstract{    
         Abstract in english...
@@ -187,6 +192,9 @@ Por exemplo, para adicionar a dedicatória e os agradecimentos, você deve utili
     ...
     \end{document}
 \end{verbatim}
+
+Os agradecimentos, epígrafe e dedicatória são opcionais. Se não forem utilizados, o modelo irá ignorá-los.
+
 Caso necessário, é possível modificar o título das seções de abstracts e acknowledgments utilizando os comandos da seguinte forma: \texttt{\textbackslash abstract[Título em sua língua]\{Texto\}} e \texttt{\textbackslash acknowledgments[Título em sua língua]\{Texto\}}.
 
 Caso você não queira usar o pacote \texttt{glossaries}, a notação pode ser inserida através do comanndo \texttt{\textbackslash setnotationpage\{...\}}.
@@ -302,20 +310,6 @@ Dentre as reclamações que se teve até então (2025) a respeito do modelo MACR
         \item Lista de abreviaturas e siglas (opcional);
         \item Sumário (obrigatório).
     \end{enumerate}
-\end{itemize}
-
-\section{TODO}
-O pacote ainda está em desenvolvimento e algumas funcionalidades ainda não foram implementadas. Algumas das funcionalidades que ainda serão implementadas são:
-\begin{itemize}
-    % \item Adicionar opções para alterar as línguas utilizadas no documento.
-    % \item Adicionar opção para selecionar "Thesis" ou "Dissertation". Além de selecionar "Master" ou "Doctor".
-    % \item Melhorar a forma como a opção \texttt{noglossaries} é tratada.
-    % \item Adicionar opções para o pacote \texttt{hyperref} ou adicionar uma opção para desabilitar o pacote.
-    % \item Traduzir automaticamente Dissertation/Thesis, Master/Doctor e o texto da capa;
-    \item Adicionar possibilidade de tradução do Acknowledgments;
-    % \item Adicionar dedicatória (o \textbackslash dedication\{...\} já existe, mas seria a epígrafe);
-    % \item Somente mostrar a lista de figuras e a lista de tabelas caso haja figuras e tabelas no documento;
-    % \item Melhorar o visual das listas de acrônimos e notações.
 \end{itemize}
 
 \chapter{Mathematical Background}
